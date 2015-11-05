@@ -1,3 +1,5 @@
+import random
+
 class HopfieldNet:
 	def __init__(self, size):
 		self.size = size
@@ -12,7 +14,10 @@ class HopfieldNet:
 		""" Update Network Weights """
 		for i in range(self.size):
 			for j in range(self.size):
-				self.weights[i][j] += new_weights[i][j]
+				if i == j:
+					self.weights[i][j] = 0
+				else:
+					self.weights[i][j] += new_weights[i][j]
 
 	def train(self, input_vector):
 		""" Train Network """
@@ -25,7 +30,9 @@ class HopfieldNet:
 		converged = False
 		while not converged:
 			y_old = y[:]
-			for i in range(self.size):
+			random_sequence = list(range(self.size))
+			random.shuffle(random_sequence)
+			for i in random_sequence:
 				y_in = 0
 				for j in range(self.size):
 					y_in += self.weights[i][j] * input_vector[j]
@@ -70,23 +77,7 @@ def parse_pattern(pattern):
 
 
 if __name__ == '__main__':
-	print('Hopfield Network')
-	hop_net = HopfieldNet(3)
-	hop_net.initialize()
-	
-	pattern = [1, 1, -1]
-	pattern2 = [-1, -1, 1]
-	hop_net.train(pattern)
-	hop_net.train(pattern2)
-	
-	t1 = [1, 0, -1]
-	t2 = [-1, 0, 1]
-	result = hop_net.test(t1)
-	result2 = hop_net.test(t2)
-	print(hop_net.weights)
-	print(result)
-	print(result2)
-	
+	print('Hopfield Network Simple Test')
 	#simple test
 	sample_set = parse_samples('samples1.txt')
 	hopnet = HopfieldNet(100)
@@ -96,5 +87,7 @@ if __name__ == '__main__':
 	
 	for test in sample_set:
 		print(hopnet.test(test) == test)
+		
+	print(hopnet.weights)
 		
 	
