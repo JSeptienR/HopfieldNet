@@ -62,7 +62,7 @@ def parse_samples(filename):
 			line = raw_data.pop(0)
 			sample.extend(parse_pattern(line))
 		sample_set.append(sample)
-		del raw_data[0]
+		if raw_data: del raw_data[0]
 	return sample_set
 
 
@@ -71,7 +71,7 @@ def parse_pattern(pattern):
 	for pixel in pattern:
 		if pixel == 'o':
 			vector.append(1)
-		elif pixel == ' ':
+		elif pixel == '_':
 			vector.append(-1)
 	return vector
 
@@ -79,15 +79,15 @@ def parse_pattern(pattern):
 if __name__ == '__main__':
 	print('Hopfield Network Simple Test')
 	#simple test
-	sample_set = parse_samples('samples1.txt')
+	sample_set = parse_samples('training_samples1.txt')
 	hopnet = HopfieldNet(100)
 	hopnet.initialize()
 	for sample in sample_set:
 		hopnet.train(sample)
-	
+
 	for test in sample_set:
 		print(hopnet.test(test) == test)
-		
-	print(hopnet.weights)
-		
-	
+
+	testing_set = parse_samples('test_samples.txt')
+	for test, stored in zip(testing_set, sample_set):
+		print(hopnet.test(test) == stored)
