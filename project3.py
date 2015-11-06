@@ -5,12 +5,32 @@ from sampleset import SampleSet
 
 def show_menu():
     """ Show menu to user """
-    print('1) Enter 1 to train a net.')
-    print('2) Enter 2 to test a network.')
-    selection = input('Select: ')
-    if selection == '1':
-        print('Enter the filename that contains the samples to store.')
-        selection = input('Filename: ')
+    while True:
+        print('_' * 30)
+        print('0) Enter 0 to quit.')
+        print('1) Enter 1 to train a net.')
+        print('2) Enter 2 to test a network.')
+        selection = input('Select: ')
+        if selection == '1':
+            print('Enter the filename that contains the samples to store.')
+            samples_filename = input('>>> ')
+            print('Enter a filename to store weights.')
+            weights_filename = input('>>> ')
+            train_network(samples_filename, weights_filename)
+            print('Training Network... OK')
+        elif selection == '2':
+            print('Enter the filename that contains the weights settings.')
+            weights_filename = input('>>> ')
+            print('Enter a filename that contains the testing samples.')
+            testing_filename = input('>>> ')
+            print('Enter a filename to store results.')
+            results_filename = input('>>> ')
+            results = test_network(weights_filename, testing_filename)
+            print('Testing Network... OK')
+            save_results_to_file(results, results_filename)
+            print('Saving results to "{}"... OK'.format(results_filename))
+        elif selection =='0':
+            break
 
 
 def train_network(samples_filename, weights_filename):
@@ -79,6 +99,4 @@ menu = OrderedDict([
 ])
 
 if __name__ == '__main__':
-    train_network('training_samples1.txt', 'weight_settings.txt')
-    results = test_network('weight_settings.txt', 'test_samples.txt')
-    save_results_to_file(results, 'results.txt')
+    show_menu()
