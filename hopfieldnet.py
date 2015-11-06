@@ -1,9 +1,9 @@
 import random
 
 class HopfieldNet:
-	def __init__(self, size):
+	def __init__(self, size, weights=[]):
 		self.size = size
-		self.weights = []
+		self.weights = weights
 
 	def initialize(self):
 		""" Initialize Network """
@@ -33,7 +33,7 @@ class HopfieldNet:
 			random_sequence = list(range(self.size))
 			random.shuffle(random_sequence)
 			for i in random_sequence:
-				y_in = 0
+				y_in = input_vector[i]
 				for j in range(self.size):
 					y_in += self.weights[i][j] * input_vector[j]
 				y[i] = activation(y_in)
