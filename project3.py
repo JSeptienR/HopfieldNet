@@ -34,7 +34,7 @@ def show_menu():
 
 
 def train_network(samples_filename, weights_filename):
-    """ Perform training on network from file and save weights. """
+    """ Perform training on network from file and saved weights. """
     sample_set = SampleSet()
     sample_set.init_from_file(samples_filename)
     net = HopfieldNet(sample_set.sample_size)
@@ -57,7 +57,7 @@ def test_network(weights_filename, samples_filename):
 
 
 def save_weights_to_file(weights, filename):
-    """ save weights to specified file """
+    """ Save weights to specified file """
     with open(filename, 'w') as f:
         f.write('\n'.join([" ".join([str(n) for n in weight]) for weight in weights])) #format weights rows by newline columns by space
 
@@ -93,10 +93,6 @@ def generate_pattern(vector, row_size):
         count += 1
     return pattern
 
-menu = OrderedDict([
-    ('', ''),
-    ('', '')
-])
 
 if __name__ == '__main__':
     show_menu()
