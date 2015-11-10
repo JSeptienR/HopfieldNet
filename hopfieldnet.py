@@ -49,45 +49,5 @@ def activation(x):
 		return -1
 
 
-def parse_samples(filename):
-	with open(filename) as f:
-		raw_data = f.readlines()
-	num_samples = int(raw_data.pop(0).strip())
-	sample_dimensions = int(raw_data.pop(0).strip())
-	del raw_data[0]
-	sample_set = []
-	for _ in range(num_samples):
-		sample = []
-		for _ in range(sample_dimensions):
-			line = raw_data.pop(0)
-			sample.extend(parse_pattern(line))
-		sample_set.append(sample)
-		if raw_data: del raw_data[0]
-	return sample_set
-
-
-def parse_pattern(pattern):
-	vector = []
-	for pixel in pattern:
-		if pixel == 'o':
-			vector.append(1)
-		elif pixel == '_':
-			vector.append(-1)
-	return vector
-
-
 if __name__ == '__main__':
-	print('Hopfield Network Simple Test')
-	#simple test
-	sample_set = parse_samples('training_samples1.txt')
-	hopnet = HopfieldNet(100)
-	hopnet.initialize()
-	for sample in sample_set:
-		hopnet.train(sample)
-
-	for test in sample_set:
-		print(hopnet.test(test) == test)
-
-	testing_set = parse_samples('test_samples.txt')
-	for test, stored in zip(testing_set, sample_set):
-		print(hopnet.test(test) == stored)
+	print('Hopfield Network')
